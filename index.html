@@ -1,47 +1,82 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Student Task Manager</title>
+
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-    <header>
-        <h1>Student Task Manager</h1>
-        <p>Organize your studies and achieve your goals.</p>
-    </header>
+    <aside class="sidebar">
+        <h2>StudyTrack</h2>
 
-    <main>
-        <section class="task-form">
-            <h2>Add a New Task</h2>
+        <nav>
+            <a href="#" class="active">Dashboard</a>
+            <a href="#tasks">My Tasks</a>
+            <a href="#deadlines">Deadlines</a>
+        </nav>
+    </aside>
 
-            <form id="task-form">
+    <main class="main-content">
+
+        <header>
+            <h1>My Dashboard</h1>
+            <p>Welcome back! Let's organize your studies.</p>
+        </header>
+
+        <section class="summary-cards">
+
+            <div class="card">
+                <h3>Total Tasks</h3>
+                <p id="totalTasks">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Pending Tasks</h3>
+                <p id="pendingTasks">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Completed Tasks</h3>
+                <p id="completedTasks">0</p>
+            </div>
+
+        </section>
+
+        <section class="task-section" id="tasks">
+
+            <h2>My Tasks</h2>
+
+            <form id="taskForm">
                 <input
                     type="text"
-                    id="task-title"
-                    placeholder="Enter task name"
-                    required
-                >
-
-                <input
-                    type="date"
-                    id="task-deadline"
+                    id="taskInput"
+                    placeholder="Enter an assignment..."
                     required
                 >
 
                 <button type="submit">Add Task</button>
             </form>
+
+            <ul id="taskList"></ul>
+
         </section>
 
-        <section class="tasks">
-            <h2>My Task</h2>
-            <ul id="task-list"></ul>
+        <section id="deadlines">
+            <h2>Upcoming Deadlines</h2>
+            <p>Keep track of your assignment due dates.</p>
         </section>
+
     </main>
 
     <script src="script.js"></script>
+
 </body>
 </html>
+
 
