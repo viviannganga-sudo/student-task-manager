@@ -130,6 +130,39 @@ button:hover {
     overflow-wrap: anywhere;
 }
 
+#taskList .task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+#taskList .task-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+#taskList .task-name span {
+    overflow-wrap: anywhere;
+}
+
+#taskList .task-item.completed .task-name span {
+    color: #64748b;
+    text-decoration: line-through;
+}
+
+#taskList .delete-btn {
+    flex-shrink: 0;
+    padding: 8px 12px;
+    background-color: #dc2626;
+}
+
+#taskList .delete-btn:hover {
+    background-color: #b91c1c;
+}
+
 #deadlines {
     background-color: white;
     padding: 25px;
@@ -160,4 +193,3 @@ button:hover {
         flex-direction: column;
     }
 }
-
