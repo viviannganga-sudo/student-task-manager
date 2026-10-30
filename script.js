@@ -12,9 +12,9 @@ if (
     !(totalTasks instanceof HTMLElement) ||
     !(pendingTasks instanceof HTMLElement) ||
     !(completedTasks instanceof HTMLElement)
-) {
-    throw new Error("The task manager page is missing required elements.");
-}
+) 
+    
+
 
 function updateTaskCounts() {
     const items = taskList.querySelectorAll(".task-item");
