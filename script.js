@@ -1,71 +1,148 @@
-const taskForm = document.querySelector("#taskForm");
-const taskInput = document.querySelector("#taskInput");
-const taskList = document.querySelector("#taskList");
-const totalTasks = document.querySelector("#totalTasks");
-const pendingTasks = document.querySelector("#pendingTasks");
-const completedTasks = document.querySelector("#completedTasks");
+// Get saved tasks from the browser.
+function getTasks() {
+    try {
+        const savedTasks = JSON.parse(
+            localStorage.getItem("studyTrackTasks") || "[]"
+        );
 
-if (
-    !(taskForm instanceof HTMLFormElement) ||
-    !(taskInput instanceof HTMLInputElement) ||
-    !(taskList instanceof HTMLUListElement) ||
-    !(totalTasks instanceof HTMLElement) ||
-    !(pendingTasks instanceof HTMLElement) ||
-    !(completedTasks instanceof HTMLElement)
-) 
-    
-
-
-function updateTaskCounts() {
-    const items = taskList.querySelectorAll(".task-item");
-    const completedCount = taskList.querySelectorAll(
-        ".task-item input[type='checkbox']:checked"
-    ).length;
-
-    totalTasks.textContent = String(items.length);
-    pendingTasks.textContent = String(items.length - completedCount);
-    completedTasks.textContent = String(completedCount);
+        return Array.isArray(savedTasks) ? savedTasks : [];
+    } catch {
+        return [];
+    }
 }
 
-taskForm.addEventListener("submit", (event) => {
-    event.preventDefault();
+// Save tasks in the browser.
+function saveTasks(tasks) {
+    localStorage.setItem(
+        "studyTrackTasks",
+        JSON.stringify(tasks)
+    );
+}
 
-    const title = taskInput.value.trim();
-    if (!title) {
+// Update the dashboard statistics.
+function updateDashboard() {
+    const totalElement = document.getElementById("totalTasks");
+    const pendingElement = document.getElementById("pendingTasks");
+    const completedElement = document.getElementById("completedTasks");
+
+    // These elements exist on the dashboard only.
+    if (!totalElement || !pendingElement || !completedElement) {
         return;
     }
 
-    const item = document.createElement("li");
-    item.className = "task-item";
+    const tasks = getTasks();
 
-    const label = document.createElement("label");
-    label.className = "task-name";
+    totalElement.textContent = tasks.length;
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.addEventListener("change", () => {
-        item.classList.toggle("completed", checkbox.checked);
-        updateTaskCounts();
+    pendingElement.textContent = tasks.filter(
+        task => !task.completed
+    ).length;
+
+    completedElement.textContent = tasks.filter(
+        task => task.completed
+    ).length;
+}
+
+// Display tasks on the Tasks page.
+function displayTasks() {
+    const taskList = document.getElementById("taskList");
+    const emptyMessage = document.getElementById("emptyMessage");
+
+    // The task list exists on the Tasks page only.
+    if (!taskList || !emptyMessage) {
+        return;
+    }
+
+    const tasks = getTasks();
+
+    taskList.replaceChildren();
+
+    emptyMessage.hidden = tasks.length > 0;
+
+    tasks.forEach(task => {
+        const listItem = document.createElement("li");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.completed;
+        checkbox.setAttribute(
+            "aria-label",
+            `Mark ${task.name} as completed`
+        );
+
+        checkbox.addEventListener("change", () => {
+            const updatedTasks = getTasks();
+
+            const currentTask = updatedTasks.find(
+                item => item.id === task.id
+            );
+
+            if (currentTask) {
+                currentTask.completed = checkbox.checked;
+                saveTasks(updatedTasks);
+                displayTasks();
+                updateDashboard();
+            }
+        });
+
+        const taskName = document.createElement("span");
+        taskName.textContent = task.name;
+        taskName.className = "task-name";
+
+        if (task.completed) {
+            taskName.classList.add("completed");
+        }
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.className = "delete-button";
+
+        deleteButton.addEventListener("click", () => {
+            const updatedTasks = getTasks().filter(
+                item => item.id !== task.id
+            );
+
+            saveTasks(updatedTasks);
+            displayTasks();
+            updateDashboard();
+        });
+
+        listItem.append(checkbox, taskName, deleteButton);
+        taskList.appendChild(listItem);
     });
+}
 
-    const name = document.createElement("span");
-    name.textContent = title;
-    label.append(checkbox, name);
+// Add a new task.
+const taskForm = document.getElementById("taskForm");
 
-    const deleteButton = document.createElement("button");
-    deleteButton.type = "button";
-    deleteButton.className = "delete-btn";
-    deleteButton.textContent = "Delete";
-    deleteButton.addEventListener("click", () => {
-        item.remove();
-        updateTaskCounts();
+if (taskForm) {
+    taskForm.addEventListener("submit", event => {
+        event.preventDefault();
+
+        const taskInput = document.getElementById("taskInput");
+        const taskName = taskInput.value.trim();
+
+        if (!taskName) {
+            return;
+        }
+
+        const tasks = getTasks();
+
+        tasks.push({
+            id: crypto.randomUUID(),
+            name: taskName,
+            completed: false
+        });
+
+        saveTasks(tasks);
+
+        taskInput.value = "";
+
+        displayTasks();
+        updateDashboard();
     });
+}
 
-    item.append(label, deleteButton);
-    taskList.append(item);
-    taskInput.value = "";
-    taskInput.focus();
-    updateTaskCounts();
-});
-
-updateTaskCounts();
+// Run on whichever page is open.
+displayTasks();
+updateDashboard();

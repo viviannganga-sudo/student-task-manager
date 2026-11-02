@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StudyTrack | My Tasks</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <h2>StudyTrack</h2>
+
+        <nav>
+            <a href="index.html">Dashboard</a>
+            <a href="tasks.html" class="active">My Tasks</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+
+        <header>
+            <h1>My Tasks</h1>
+            <p>Add and manage your academic assignments.</p>
+        </header>
+
+        <section class="task-section">
+
+            <h2>Add a New Task</h2>
+
+            <form id="taskForm">
+
+                <input
+                    type="text"
+                    id="taskInput"
+                    placeholder="Enter your task"
+                    required
+                >
+
+                <button type="submit" class="button">
+                    Add Task
+                </button>
+
+            </form>
+
+        </section>
+
+        <section class="task-section">
+
+            <h2>Your Task List</h2>
+
+            <ul id="taskList"></ul>
+
+            <p id="emptyMessage">You have no tasks yet.</p>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
+
+

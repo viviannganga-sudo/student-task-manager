@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Student Task Manager</title>
+    <title>StudyTrack | Dashboard</title>
 
-    <link rel="stylesheet" href="styles.css">
-    <a href="my tasks.html"></a>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 
 <body>
@@ -17,9 +17,8 @@
         <h2>StudyTrack</h2>
 
         <nav>
-            <a href="#" class="active">Dashboard</a>
-            <a href="#tasks">My Tasks</a>
-            <a href="#deadlines">Deadlines</a>
+            <a href="index.html" class="active">Dashboard</a>
+            <a href="tasks.html">My Tasks</a>
         </nav>
     </aside>
 
@@ -27,7 +26,7 @@
 
         <header>
             <h1>My Dashboard</h1>
-            <p>Welcome back! Let's organize your studies.</p>
+            <p>Welcome to StudyTrack. Organize your studies!</p>
         </header>
 
         <section class="summary-cards">
@@ -49,35 +48,21 @@
 
         </section>
 
-        <section class="task-section" id="tasks">
+        <section class="welcome-section">
+            <h2>Manage Your Academic Work</h2>
 
-            <h2>My Tasks</h2>
+            <p>
+                Keep track of your assignments, organize your
+                activities, and monitor your progress.
+            </p>
 
-            <form id="taskForm">
-                <input
-                    type="text"
-                    id="taskInput"
-                    placeholder="Enter an assignment..."
-                    required
-                >
-
-                <button type="submit">Add Task</button>
-            </form>
-
-            <ul id="taskList"></ul>
-
-        </section>
-
-        <section id="deadlines">
-            <h2>Upcoming Deadlines</h2>
-            <p>Keep track of your assignment due dates.</p>
+            <a href="tasks.html" class="button">
+                Go to My Tasks
+            </a>
         </section>
 
     </main>
 
-    <script src="script.js"></script>
-
 </body>
 </html>
-
 
